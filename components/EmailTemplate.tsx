@@ -9,6 +9,8 @@ import {
 } from "@react-email/components";
 
 export function EmailTemplate({ body }: { body: string }) {
+  const paragraphs = body.split("\n\n");
+
   return (
     <Html>
       <Head />
@@ -16,7 +18,16 @@ export function EmailTemplate({ body }: { body: string }) {
       <Body style={main}>
         <Container style={container}>
           <Heading style={h1}>Your Email Campaign</Heading>
-          <Text style={text}>{body}</Text>
+          {paragraphs.map((paragraph, index) => (
+            <Text key={index} style={text}>
+              {paragraph.split("\n").map((line, lineIndex) => (
+                <span key={lineIndex}>
+                  {line}
+                  {lineIndex < paragraph.split("\n").length - 1 && <br />}
+                </span>
+              ))}
+            </Text>
+          ))}
         </Container>
       </Body>
     </Html>
@@ -47,4 +58,5 @@ const text = {
   color: "#333",
   fontSize: "16px",
   lineHeight: "26px",
+  marginBottom: "26px",
 };

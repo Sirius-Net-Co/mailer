@@ -71,6 +71,7 @@ export function EmailCampaignForm() {
               required
               rows={6}
               placeholder="Enter email body"
+              className="whitespace-pre-wrap"
             />
           </div>
 
