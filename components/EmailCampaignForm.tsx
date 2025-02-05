@@ -39,6 +39,7 @@ export function EmailCampaignForm() {
       const result = await sendEmails({ subject, body, emails });
       setResult(result);
     } catch (error) {
+      console.error("Error sending emails:", error);
       setResult("Error sending emails. Please try again.");
     }
     setSending(false);
