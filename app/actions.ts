@@ -1,6 +1,7 @@
 "use server";
 
 import nodemailer from "nodemailer";
+import { convert } from "html-to-text";
 import { render } from "@react-email/components";
 import { EmailTemplate } from "@/components/EmailTemplate";
 
@@ -25,6 +26,7 @@ export async function sendEmails({
   const results = await Promise.all(
     emails.map(async (email) => {
       const html = await render(EmailTemplate({ body }));
+      const text = convert(body, { wordwrap: 130 });
 
       try {
         await transporter.sendMail({
@@ -32,6 +34,7 @@ export async function sendEmails({
           to: email,
           subject,
           html,
+          text,
         });
         return { email, status: "success" };
       } catch (error) {
