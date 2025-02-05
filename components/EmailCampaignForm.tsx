@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { parseExcelFile } from "@/utils/excelParser";
 import { sendEmails } from "@/app/actions";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
   CardContent,
@@ -18,9 +18,9 @@ import {
 export function EmailCampaignForm() {
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [emails, setEmails] = useState<string[]>([]);
   const [sending, setSending] = useState(false);
+  const [emails, setEmails] = useState<string[]>([]);
+  const [file, setFile] = useState<File | null>(null);
   const [result, setResult] = useState<string | null>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {

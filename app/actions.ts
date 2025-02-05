@@ -14,7 +14,6 @@ export async function sendEmails({
   emails: string[];
 }) {
   const transporter = nodemailer.createTransport({
-    // Configure your email service here
     host: process.env.SMTP_HOST,
     port: Number.parseInt(process.env.SMTP_PORT || "587"),
     auth: {

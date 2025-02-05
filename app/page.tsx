@@ -1,4 +1,4 @@
-import { EmailCampaignForm } from "@/components/EmailCampaignForm"
+import { EmailCampaignForm } from "@/components/EmailCampaignForm";
 
 export default function Home() {
   return (
@@ -7,6 +7,5 @@ export default function Home() {
         <EmailCampaignForm />
       </div>
     </main>
-  )
+  );
 }
-
