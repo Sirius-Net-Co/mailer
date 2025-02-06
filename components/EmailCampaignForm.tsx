@@ -186,5 +186,3 @@ export function EmailCampaignForm() {
     </Card>
   );
 }
-
-export default EmailCampaignForm;
