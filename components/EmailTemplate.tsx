@@ -24,7 +24,7 @@ export function EmailTemplate({ body }: { body: string }) {
         {/* Header */}
         <Section style={header}>
           <Img
-            src="https://imgur.com/a/Rb6rNHw"
+            src="https://i.postimg.cc/6Q5bfdnD/Sirius.png"
             alt="Sirius.Net.Co Logo"
             width="50"
             height="50"
@@ -34,7 +34,7 @@ export function EmailTemplate({ body }: { body: string }) {
         {/* Hero Section */}
         <Section style={hero}>
           <Img
-            src="https://imgur.com/a/pp5e5tH"
+            src="https://i.postimg.cc/v8rQjspb/Frame-7.png"
             alt="Digital Innovation"
             width="600"
             height="300"
