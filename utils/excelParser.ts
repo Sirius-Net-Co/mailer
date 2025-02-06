@@ -1,4 +1,4 @@
-import * as XLSX from "xlsx";
+import XLSX from "xlsx";
 
 export async function parseExcelFile(file: File): Promise<string[]> {
   return new Promise((resolve, reject) => {
