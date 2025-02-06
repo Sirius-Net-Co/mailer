@@ -41,7 +41,7 @@ export async function sendEmails({
         console.error(`Error sending email to ${email}:`, error);
         return { email, status: "error" };
       }
-    })
+    }),
   );
 
   const successful = results.filter((r) => r.status === "success").length;

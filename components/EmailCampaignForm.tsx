@@ -20,9 +20,9 @@ import "react-quill-new/dist/quill.snow.css";
 const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center h-40">
-      <Loader2 className="animate-spin w-6 h-6 text-[#9669A4]" />
-      <span className="text-[#9669A4] ml-2">Loading...</span>
+    <div className="flex h-40 items-center justify-center">
+      <Loader2 className="h-6 w-6 animate-spin text-[#9669A4]" />
+      <span className="ml-2 text-[#9669A4]">Loading...</span>
     </div>
   ),
 });
@@ -86,16 +86,16 @@ export function EmailCampaignForm() {
   ];
 
   return (
-    <Card className="w-full max-w-3xl mx-auto bg-[#ECE190]/10">
+    <Card className="mx-auto w-full max-w-3xl rounded-none bg-[#ECE190]/10">
       <CardHeader className="bg-[#9669A4] text-white">
         <CardTitle className="text-2xl font-semibold">
           Sirius.Net.Co Email Campaign Manager
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-6 space-y-6">
+      <CardContent className="space-y-6 p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="subject" className="text-[#22264B] font-medium">
+            <Label htmlFor="subject" className="font-medium text-[#22264B]">
               Email Subject
             </Label>
             <Input
@@ -104,12 +104,12 @@ export function EmailCampaignForm() {
               onChange={(e) => setSubject(e.target.value)}
               required
               placeholder="Enter email subject"
-              className="bg-white/50 border-0 focus:ring-2 focus:ring-[#9669A4] placeholder:text-[#22264B]/50"
+              className="border-0 bg-white/50 placeholder:text-[#22264B]/50 focus:ring-2 focus:ring-[#9669A4]"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="body" className="text-[#22264B] font-medium">
+            <Label htmlFor="body" className="font-medium text-[#22264B]">
               Email Body
             </Label>
             <div className="bg-white/50">
@@ -125,7 +125,7 @@ export function EmailCampaignForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="file" className="text-[#22264B] font-medium">
+            <Label htmlFor="file" className="font-medium text-[#22264B]">
               Upload Excel File
             </Label>
             <div className="relative">
@@ -140,9 +140,9 @@ export function EmailCampaignForm() {
               />
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full bg-white/50 hover:bg-white/60 transition-colors cursor-pointer p-4 flex items-center justify-center space-x-2 border-2 border-dashed border-[#9669A4]/30 hover:border-[#9669A4]/50"
+                className="flex w-full cursor-pointer items-center justify-center space-x-2 border-2 border-dashed border-[#9669A4]/30 bg-white/50 p-4 transition-colors hover:border-[#9669A4]/50 hover:bg-white/60"
               >
-                <Upload className="w-5 h-5 text-[#9669A4]" />
+                <Upload className="h-5 w-5 text-[#9669A4]" />
                 <span className="text-[#22264B]">
                   {file ? file.name : "Click to upload Excel file"}
                 </span>
@@ -150,7 +150,7 @@ export function EmailCampaignForm() {
             </div>
             {emails.length > 0 && (
               <div className="flex items-center space-x-2 text-sm text-[#9669A4]">
-                <div className="w-2 h-2 bg-[#9669A4] rounded-full" />
+                <div className="h-2 w-2 rounded-full bg-[#9669A4]" />
                 <p>
                   {emails.length} email{emails.length === 1 ? "" : "s"} found in
                   file
@@ -160,7 +160,7 @@ export function EmailCampaignForm() {
           </div>
 
           {result && (
-            <div className="mt-4 p-4 bg-[#D7C5AE]/30 text-[#22264B]">
+            <div className="mt-4 bg-[#D7C5AE]/30 p-4 text-[#22264B]">
               {result}
             </div>
           )}
@@ -171,11 +171,11 @@ export function EmailCampaignForm() {
           type="submit"
           onClick={handleSubmit}
           disabled={sending || !file || emails.length === 0}
-          className="w-full bg-[#9669A4] hover:bg-[#9669A4]/80 text-white transition-colors"
+          className="w-full bg-[#9669A4] text-white transition-colors hover:bg-[#9669A4]/80"
         >
           {sending ? (
             <span className="flex items-center">
-              <Loader2 className="animate-spin w-4 h-4 mr-2" />
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Sending...
             </span>
           ) : (
