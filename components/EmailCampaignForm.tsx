@@ -28,8 +28,8 @@ const ReactQuill = dynamic(() => import("react-quill-new"), {
 });
 
 export function EmailCampaignForm() {
-  const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
+  const [subject, setSubject] = useState("");
   const [sending, setSending] = useState(false);
   const [emails, setEmails] = useState<string[]>([]);
   const [file, setFile] = useState<File | null>(null);
