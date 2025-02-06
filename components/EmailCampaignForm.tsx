@@ -89,7 +89,7 @@ export function EmailCampaignForm() {
     <Card className="w-full max-w-3xl mx-auto bg-[#ECE190]/10">
       <CardHeader className="bg-[#9669A4] text-white">
         <CardTitle className="text-2xl font-semibold">
-          Email Campaign Manager
+          Sirius.Net.Co Email Campaign Manager
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
