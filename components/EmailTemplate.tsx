@@ -32,7 +32,6 @@ export function EmailTemplate({ body }: { body: string }) {
                 alt="Sirius.Net.Co Logo"
                 width="50"
                 height="50"
-                className="mx-auto"
               />
             </Section>
 
