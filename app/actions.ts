@@ -1,6 +1,7 @@
 "use server";
 
 import nodemailer from "nodemailer";
+import { createElement } from "react";
 import { convert } from "html-to-text";
 import { render } from "@react-email/components";
 import { EmailTemplate } from "@/components/EmailTemplate";
