@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState, useRef } from "react";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Upload, Paperclip, Trash2 } from "lucide-react";
 import { parseExcelFile } from "@/utils/excelParser";
 import { sendEmails } from "@/app/actions";
 import { Input } from "@/components/ui/input";
@@ -33,8 +33,10 @@ export function EmailCampaignForm() {
   const [sending, setSending] = useState(false);
   const [emails, setEmails] = useState<string[]>([]);
   const [file, setFile] = useState<File | null>(null);
+  const [attachments, setAttachments] = useState<File[]>([]);
   const [result, setResult] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const attachmentInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -45,16 +47,29 @@ export function EmailCampaignForm() {
     }
   };
 
+  const handleAttachmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    setAttachments((prevAttachments) => [...prevAttachments, ...selectedFiles]);
+  };
+
+  const removeAttachment = (index: number) => {
+    setAttachments((prevAttachments) =>
+      prevAttachments.filter((_, i) => i !== index),
+    );
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    try {
-      const result = await sendEmails({ subject, body, emails });
-      setResult(result);
-    } catch (error) {
-      console.error("Error sending emails:", error);
-      setResult("Error sending emails. Please try again.");
-    }
+
+    const formData = new FormData();
+    formData.append("body", body);
+    formData.append("subject", subject);
+    emails.forEach((email) => formData.append("emails", email));
+    attachments.forEach((attachment) => formData.append("attachments", attachment));
+
+    const result = await sendEmails(formData);
+    setResult(result);
     setSending(false);
   };
 
@@ -158,7 +173,52 @@ export function EmailCampaignForm() {
               </div>
             )}
           </div>
-
+          <div className="space-y-2">
+            <Label htmlFor="attachments" className="font-medium text-[#22264B]">
+              Attachments (Optional)
+            </Label>
+            <div className="relative">
+              <input
+                type="file"
+                id="attachments"
+                multiple
+                onChange={handleAttachmentChange}
+                className="hidden"
+                ref={attachmentInputRef}
+              />
+              <div
+                onClick={() => attachmentInputRef.current?.click()}
+                className="flex w-full cursor-pointer items-center justify-center space-x-2 border-2 border-dashed border-[#9669A4]/30 bg-white/50 p-4 transition-colors hover:border-[#9669A4]/50 hover:bg-white/60"
+              >
+                <Paperclip className="h-5 w-5 text-[#9669A4]" />
+                <span className="text-[#22264B]">Click to add attachments</span>
+              </div>
+            </div>
+            {attachments.length > 0 && (
+              <div className="mt-2 space-y-2">
+                {attachments.map((attachment, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-white/50 p-2"
+                  >
+                    <span className="text-sm text-[#22264B]">
+                      {attachment.name}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeAttachment(index)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <Trash2 className="mr-1 h-4 w-4" />
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           {result && (
             <div className="mt-4 bg-[#D7C5AE]/30 p-4 text-[#22264B]">
               {result}
