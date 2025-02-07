@@ -163,6 +163,7 @@ export function EmailCampaignForm() {
                 </span>
               </div>
             </div>
+
             {emails.length > 0 && (
               <div className="flex items-center space-x-2 text-sm text-[#9669A4]">
                 <div className="h-2 w-2 rounded-full bg-[#9669A4]" />
@@ -173,6 +174,7 @@ export function EmailCampaignForm() {
               </div>
             )}
           </div>
+
           <div className="space-y-2">
             <Label htmlFor="attachments" className="font-medium text-[#22264B]">
               Attachments (Optional)
@@ -194,6 +196,7 @@ export function EmailCampaignForm() {
                 <span className="text-[#22264B]">Click to add attachments</span>
               </div>
             </div>
+            
             {attachments.length > 0 && (
               <div className="mt-2 space-y-2">
                 {attachments.map((attachment, index) => (
