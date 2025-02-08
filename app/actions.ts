@@ -21,8 +21,8 @@ export async function sendEmails(formData: FormData) {
       },
     });
 
+    const text = convert(body);
     const html = await render(EmailTemplate({ body }));
-    const text = convert(body, { wordwrap: 130 });
     const attachments = await Promise.all(
       attachmentFiles.map(async (file) => ({
         filename: file.name,
@@ -37,8 +37,8 @@ export async function sendEmails(formData: FormData) {
             from: process.env.FROM_EMAIL,
             to: email,
             subject,
-            html,
             text,
+            html,
             attachments,
           });
           return { email, status: "success" };
