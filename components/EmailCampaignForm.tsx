@@ -39,11 +39,16 @@ export function EmailCampaignForm() {
   const attachmentInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
+    try {
+      const selectedFile = e.target.files?.[0];
+      if (!selectedFile) {
+        throw new Error("No file selected");
+      }
       setFile(selectedFile);
       const parsedEmails = await parseExcelFile(selectedFile);
       setEmails(parsedEmails);
+    } catch (error) {
+      console.error("Error processing file:", error);
     }
   };
 
@@ -59,18 +64,22 @@ export function EmailCampaignForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSending(true);
+    try {
+      e.preventDefault();
+      setSending(true);
 
-    const formData = new FormData();
-    formData.append("body", body);
-    formData.append("subject", subject);
-    emails.forEach((email) => formData.append("emails", email));
-    attachments.forEach((attachment) => formData.append("attachments", attachment));
+      const formData = new FormData();
+      formData.append("body", body);
+      formData.append("subject", subject);
+      emails.forEach((email) => formData.append("emails", email));
+      attachments.forEach((attachment) => formData.append("attachments", attachment));
 
-    const result = await sendEmails(formData);
-    setResult(result);
-    setSending(false);
+      const result = await sendEmails(formData);
+      setResult(result);
+      setSending(false);
+    } catch (error) {
+      console.error("Error sending emails:", error);
+    }
   };
 
   const modules = {
@@ -196,7 +205,7 @@ export function EmailCampaignForm() {
                 <span className="text-[#22264B]">Click to add attachments</span>
               </div>
             </div>
-            
+
             {attachments.length > 0 && (
               <div className="mt-2 space-y-2">
                 {attachments.map((attachment, index) => (
