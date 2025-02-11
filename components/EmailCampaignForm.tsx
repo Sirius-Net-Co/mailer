@@ -1,10 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { toast } from "react-hot-toast";
 import { useState, useRef } from "react";
 import { Loader2, Upload, Paperclip, Trash2 } from "lucide-react";
 import { parseExcelFile } from "@/utils/excelParser";
-import { sendEmails } from "@/app/actions";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,6 @@ export function EmailCampaignForm() {
   const [emails, setEmails] = useState<string[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [attachments, setAttachments] = useState<File[]>([]);
-  const [result, setResult] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const attachmentInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -49,6 +48,7 @@ export function EmailCampaignForm() {
       setEmails(parsedEmails);
     } catch (error) {
       console.error("Error processing file:", error);
+      toast.error("Error processing file. Please try again.");
     }
   };
 
@@ -64,21 +64,28 @@ export function EmailCampaignForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    try {
-      e.preventDefault();
-      setSending(true);
+    e.preventDefault();
+    setSending(true);
 
+    try {
       const formData = new FormData();
       formData.append("body", body);
       formData.append("subject", subject);
       emails.forEach((email) => formData.append("emails", email));
       attachments.forEach((attachment) => formData.append("attachments", attachment));
 
-      const result = await sendEmails(formData);
-      setResult(result);
-      setSending(false);
+      const response = await fetch("/api/send-emails", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      toast.success(data.message);
     } catch (error) {
       console.error("Error sending emails:", error);
+      toast.error("Error sending emails. Please try again.");
+    } finally {
+      setSending(false);
     }
   };
 
@@ -231,11 +238,6 @@ export function EmailCampaignForm() {
               </div>
             )}
           </div>
-          {result && (
-            <div className="mt-4 bg-[#D7C5AE]/30 p-4 text-[#22264B]">
-              {result}
-            </div>
-          )}
         </form>
       </CardContent>
       <CardFooter className="bg-[#D7C5AE]/20 p-6">
