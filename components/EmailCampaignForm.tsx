@@ -80,10 +80,17 @@ export function EmailCampaignForm() {
       });
 
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
       toast.success(data.message);
     } catch (error) {
       console.error("Error sending emails:", error);
-      toast.error("Error sending emails. Please try again.");
+      toast.error(
+        error instanceof Error ? error.message : "Error sending emails",
+      );
     } finally {
       setSending(false);
     }

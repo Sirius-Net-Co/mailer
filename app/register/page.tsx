@@ -49,10 +49,10 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.message);
       }
 
-      toast.success(data.message || "Account created successfully!");
+      toast.success(data.message);
       router.push("/login");
     } catch (error) {
       toast.error(
