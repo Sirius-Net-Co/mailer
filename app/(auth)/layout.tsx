@@ -47,7 +47,7 @@ export default function AuthLayout({
         </div>
 
         <div className="text-sm text-white/60">
-          © 2025 Sirius.Net.Co. All rights reserved.
+          © {new Date().getFullYear()} Sirius.Net.Co. All rights reserved.
         </div>
       </div>
 
