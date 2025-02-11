@@ -11,19 +11,19 @@ export default function Home() {
   const router = useRouter();
   const { data, status } = useSession();
 
-  // useEffect(() => {
-  //   if (status === "unauthenticated") {
-  //     router.push("/login");
-  //   }
-  // }, [status, router]);
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
 
-  // if (status === "loading" || !data) {
-  //   return (
-  //     <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#ECE190]/20 via-[#D7C5AE]/20 to-[#9669A4]/20">
-  //       <Loader2 className="h-12 w-12 animate-spin text-[#9669A4]" />
-  //     </main>
-  //   );
-  // }
+  if (status === "loading" || !data) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#ECE190]/20 via-[#D7C5AE]/20 to-[#9669A4]/20">
+        <Loader2 className="h-12 w-12 animate-spin text-[#9669A4]" />
+      </main>
+    );
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#ECE190]/20 via-[#D7C5AE]/20 to-[#9669A4]/20">

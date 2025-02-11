@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useState, useRef } from "react";
 import { Loader2, Upload, Paperclip, Trash2 } from "lucide-react";
 import { parseExcelFile } from "@/utils/excelParser";
