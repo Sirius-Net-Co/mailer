@@ -76,6 +76,7 @@ export default function LoginPage() {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="password"
@@ -96,6 +97,7 @@ export default function LoginPage() {
                 </FormItem>
               )}
             />
+
             <Button
               type="submit"
               className="w-full bg-[#9669A4] text-white transition-colors hover:bg-[#9669A4]/80"
@@ -109,6 +111,7 @@ export default function LoginPage() {
                 "Login"
               )}
             </Button>
+
             <div className="text-center text-sm text-[#22264B]/70">
               Don't have an account?{" "}
               <Link

@@ -27,6 +27,33 @@ const ReactQuill = dynamic(() => import("react-quill-new"), {
   ),
 });
 
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link"],
+    ["clean"],
+  ],
+};
+
+const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "indent",
+  "link",
+];
+
 export function EmailCampaignForm() {
   const [body, setBody] = useState("");
   const [subject, setSubject] = useState("");
@@ -40,12 +67,11 @@ export function EmailCampaignForm() {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const selectedFile = e.target.files?.[0];
-      if (!selectedFile) {
-        throw new Error("No file selected");
+      if (selectedFile) {
+        setFile(selectedFile);
+        const parsedEmails = await parseExcelFile(selectedFile);
+        setEmails(parsedEmails);
       }
-      setFile(selectedFile);
-      const parsedEmails = await parseExcelFile(selectedFile);
-      setEmails(parsedEmails);
     } catch (error) {
       console.error("Error processing file:", error);
       toast.error("Error processing file. Please try again.");
@@ -96,33 +122,6 @@ export function EmailCampaignForm() {
       setSending(false);
     }
   };
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link"],
-      ["clean"],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "indent",
-    "link",
-  ];
 
   return (
     <Card className="mx-auto w-full max-w-3xl rounded-none bg-[#ECE190]/10">

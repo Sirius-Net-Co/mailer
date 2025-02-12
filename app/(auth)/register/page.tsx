@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, CheckCircle2, ArrowRight, Mail } from "lucide-react";
 import { registerSchema, RegisterSchemaType } from "@/lib/schema";
