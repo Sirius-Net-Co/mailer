@@ -2,9 +2,9 @@ import nodemailer from "nodemailer";
 import { z } from "zod";
 import { convert } from "html-to-text";
 import { render } from "@react-email/components";
+import { sendEmailSchema } from "@/lib/schema";
 import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
-import { sendEmailSchema } from "@/lib/schema";
 import { EmailTemplate } from "@/components/EmailTemplate";
 
 export async function POST(request: NextRequest) {
@@ -14,20 +14,27 @@ export async function POST(request: NextRequest) {
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    
+
     const formData = await request.formData();
+
+    const emailData = {
+      body: formData.get("body"),
+      subject: formData.get("subject"),
+      emails: formData.getAll("emails"),
+      attachments: formData.getAll("attachments"),
+    };
 
     const {
       body,
       subject,
       emails,
       attachments: parsedAttachments,
-    } = sendEmailSchema.parse(Object.fromEntries(formData));
+    } = sendEmailSchema.parse(emailData);
 
     const text = convert(body);
     const html = await render(EmailTemplate({ body }));
     const attachments = await Promise.all(
-      (parsedAttachments || []).map(async (file) => ({
+      parsedAttachments.map(async (file) => ({
         filename: file.name,
         content: Buffer.from(await file.arrayBuffer()),
       })),
