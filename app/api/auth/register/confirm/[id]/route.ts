@@ -18,7 +18,7 @@ export async function GET(
 
     if (!pendingRegistration) {
       return NextResponse.json(
-        { message: "Invalid registration request" },
+        { error: "Invalid registration request" },
         { status: 400 },
       );
     }
