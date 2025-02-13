@@ -26,7 +26,7 @@ export async function GET(
     await prisma.pendingRegistration.delete({ where: { id } });
 
     const body = `
-      <h2 className="text-xl font-bold">Registration Request Declined</h2>
+      <h2 style="font-size: 1.25rem; font-weight: bold;">Registration Request Declined</h2>
       <p>Dear ${pendingRegistration.name},</p>
       <p>
         We're sorry, but your registration request has been declined. If you believe this is an error, please contact our support team.
@@ -34,8 +34,16 @@ export async function GET(
       <p>
         <a 
           href="mailto:${process.env.SMTP_USER}" 
-          className="bg-red-500 text-white py-2 px-4 no-underline inline-block"
-        >
+          style="
+            background-color: #38a169; 
+            color: white; 
+            padding: 0.5rem 1rem; 
+            text-decoration: none; 
+            display: inline-block; 
+            border-radius: 5px; 
+            font-weight: bold;
+            "
+          >
           Contact Support
         </a>
       </p>

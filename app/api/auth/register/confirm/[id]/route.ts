@@ -34,7 +34,7 @@ export async function GET(
     await prisma.pendingRegistration.delete({ where: { id } });
 
     const body = `
-      <h2 className="text-2xl font-bold">Welcome to Our Platform!</h2>
+      <h2 style="font-size: 1.5rem; font-weight: bold;">Welcome to Our Platform!</h2>
       <p>Dear ${pendingRegistration.name},</p>
       <p>
         Your registration has been approved. You can now log in to your account using your email and password.
@@ -42,7 +42,15 @@ export async function GET(
       <p>
         <a 
           href="${process.env.NEXT_PUBLIC_APP_URL}/login" 
-          className="bg-green-500 text-white py-2 px-4 no-underline inline-block"
+          style="
+            background-color: #38a169; 
+            color: white; 
+            padding: 0.5rem 1rem; 
+            text-decoration: none; 
+            display: inline-block; 
+            border-radius: 5px; 
+            font-weight: bold;
+          "
         >
           Login Now
         </a>

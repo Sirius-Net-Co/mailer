@@ -29,20 +29,38 @@ export async function POST(request: NextRequest) {
     });
 
     const body = `
-      <h2 className="text-2xl font-bold">New User Registration Request</h2>
+      <h2 style="font-size: 1.5rem; font-weight: bold;">New User Registration Request</h2>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p>Please review this registration request and take appropriate action:</p>
       <p>
         <a 
           href="${process.env.NEXT_PUBLIC_APP_URL}/api/auth/register/confirm/${pendingRegistration.id}" 
-          className="bg-green-500 text-white px-4 py-2 no-underline inline-block mr-2"
+          style="
+            background-color: #38a169; 
+            color: white; 
+            padding: 0.5rem 1rem; 
+            text-decoration: none; 
+            display: inline-block; 
+            margin-right: 0.5rem; 
+            border-radius: 5px; 
+            font-weight: bold;
+          "
         >
           Confirm Registration
         </a>
         <a 
           href="${process.env.NEXT_PUBLIC_APP_URL}/api/auth/register/delete/${pendingRegistration.id}" 
-          className="bg-red-500 text-white px-4 py-2 no-underline inline-block"
+          style="
+            background-color: #e53e3e; 
+            color: white; 
+            padding: 0.5rem 1rem; 
+            text-decoration: none; 
+            display: inline-block; 
+            margin-left: 0.5rem; 
+            border-radius: 5px; 
+            font-weight: bold;
+          "
         >
           Delete Request
         </a>
