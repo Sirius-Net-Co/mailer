@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { convert } from "html-to-text";
 import { sendEmail } from "@/lib/email";
 import { render } from "@react-email/components";
 import { NextRequest, NextResponse } from "next/server";
@@ -40,15 +41,14 @@ export async function GET(
       </p>
     `;
 
+    const text = convert(body);
     const html = await render(EmailTemplate({ body }));
 
     await sendEmail({
       to: pendingRegistration.email,
       subject: "Your Registration Request Has Been Declined",
-      html: `
-        <h1>Registration Request Declined</h1>
-        <p>We're sorry, but your registration request has been declined. If you believe this is an error, please contact our support team.</p>
-      `,
+      text,
+      html,
     });
 
     return NextResponse.json(

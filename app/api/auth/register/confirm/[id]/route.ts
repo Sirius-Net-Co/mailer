@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { convert } from "html-to-text";
 import { sendEmail } from "@/lib/email";
 import { render } from "@react-email/components";
 import { NextRequest, NextResponse } from "next/server";
@@ -48,11 +49,13 @@ export async function GET(
       </p>
     `;
 
+    const text = convert(body);
     const html = await render(EmailTemplate({ body }));
 
     await sendEmail({
       to: pendingRegistration.email,
       subject: "Your Registration Has Been Approved",
+      text,
       html,
     });
 

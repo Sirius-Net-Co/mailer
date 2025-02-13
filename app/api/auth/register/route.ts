@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
+import { convert } from "html-to-text";
 import { sendEmail } from "@/lib/email";
 import { render } from "@react-email/components";
 import { NextRequest, NextResponse } from "next/server";
@@ -48,11 +49,13 @@ export async function POST(request: NextRequest) {
       </p>
     `;
 
+    const text = convert(body);
     const html = await render(EmailTemplate({ body }));
 
     await sendEmail({
       to: process.env.SMTP_USER!,
       subject: "New User Registration Request",
+      text,
       html,
     });
 

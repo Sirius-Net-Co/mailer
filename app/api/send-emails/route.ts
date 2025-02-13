@@ -24,15 +24,6 @@ export async function POST(request: NextRequest) {
       attachments: parsedAttachments,
     } = sendEmailSchema.parse(Object.fromEntries(formData));
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
     const text = convert(body);
     const html = await render(EmailTemplate({ body }));
     const attachments = await Promise.all(
@@ -41,6 +32,15 @@ export async function POST(request: NextRequest) {
         content: Buffer.from(await file.arrayBuffer()),
       })),
     );
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
 
     const results = await Promise.all(
       emails.map(async (email) => {
