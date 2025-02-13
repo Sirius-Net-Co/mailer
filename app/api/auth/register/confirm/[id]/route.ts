@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
+import { render } from "@react-email/components";
 import { NextRequest, NextResponse } from "next/server";
+import { EmailTemplate } from "@/components/EmailTemplate";
 
 export async function GET(
   request: NextRequest,
@@ -9,8 +11,11 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const tempUser = await prisma.tempUser.findUnique({ where: { id } });
-    if (!tempUser) {
+    const pendingRegistration = await prisma.pendingRegistration.findUnique({
+      where: { id },
+    });
+
+    if (!pendingRegistration) {
       return NextResponse.json(
         { message: "Invalid registration request" },
         { status: 400 },
@@ -19,21 +24,36 @@ export async function GET(
 
     await prisma.user.create({
       data: {
-        name: tempUser.name,
-        email: tempUser.email,
-        password: tempUser.password,
+        name: pendingRegistration.name,
+        email: pendingRegistration.email,
+        password: pendingRegistration.password,
       },
     });
 
-    await prisma.tempUser.delete({ where: { id } });
+    await prisma.pendingRegistration.delete({ where: { id } });
+
+    const body = `
+      <h2 className="text-2xl font-bold">Welcome to Our Platform!</h2>
+      <p>Dear ${pendingRegistration.name},</p>
+      <p>
+        Your registration has been approved. You can now log in to your account using your email and password.
+      </p>
+      <p>
+        <a 
+          href="${process.env.NEXT_PUBLIC_APP_URL}/login" 
+          className="bg-green-500 text-white py-2 px-4 no-underline inline-block"
+        >
+          Login Now
+        </a>
+      </p>
+    `;
+
+    const html = await render(EmailTemplate({ body }));
 
     await sendEmail({
-      to: tempUser.email,
+      to: pendingRegistration.email,
       subject: "Your Registration Has Been Approved",
-      html: `
-        <h1>Welcome to Our Platform</h1>
-        <p>Your registration has been approved. You can now log in to your account.</p>
-      `,
+      html,
     });
 
     return NextResponse.json(

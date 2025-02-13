@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
+import { render } from "@react-email/components";
 import { NextRequest, NextResponse } from "next/server";
+import { EmailTemplate } from "@/components/EmailTemplate";
 
 export async function GET(
   request: NextRequest,
@@ -9,18 +11,39 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const tempUser = await prisma.tempUser.findUnique({ where: { id } });
-    if (!tempUser) {
+    const pendingRegistration = await prisma.pendingRegistration.findUnique({
+      where: { id },
+    });
+
+    if (!pendingRegistration) {
       return NextResponse.json(
         { error: "Invalid registration request" },
         { status: 400 },
       );
     }
 
-    await prisma.tempUser.delete({ where: { id } });
+    await prisma.pendingRegistration.delete({ where: { id } });
+
+    const body = `
+      <h2 className="text-xl font-bold">Registration Request Declined</h2>
+      <p>Dear ${pendingRegistration.name},</p>
+      <p>
+        We're sorry, but your registration request has been declined. If you believe this is an error, please contact our support team.
+      </p>
+      <p>
+        <a 
+          href="mailto:${process.env.SMTP_USER}" 
+          className="bg-red-500 text-white py-2 px-4 no-underline inline-block"
+        >
+          Contact Support
+        </a>
+      </p>
+    `;
+
+    const html = await render(EmailTemplate({ body }));
 
     await sendEmail({
-      to: tempUser.email,
+      to: pendingRegistration.email,
       subject: "Your Registration Request Has Been Declined",
       html: `
         <h1>Registration Request Declined</h1>
@@ -34,7 +57,7 @@ export async function GET(
     );
   } catch (error) {
     console.error("Deletion error:", error);
-    
+
     return NextResponse.json(
       { error: "An error occurred during deletion" },
       { status: 500 },

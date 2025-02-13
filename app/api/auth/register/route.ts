@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
+import { render } from "@react-email/components";
 import { NextRequest, NextResponse } from "next/server";
+import { EmailTemplate } from "@/components/EmailTemplate";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const tempUser = await prisma.tempUser.create({
+    const pendingRegistration = await prisma.pendingRegistration.create({
       data: {
         name,
         email,
@@ -25,22 +27,33 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const adminEmail = process.env.SMTP_USER!;
-    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/register/confirm/${tempUser.id}`;
-    const deleteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/register/delete/${tempUser.id}`;
+    const body = `
+      <h2 className="text-2xl font-bold">New User Registration Request</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p>Please review this registration request and take appropriate action:</p>
+      <p>
+        <a 
+          href="${process.env.NEXT_PUBLIC_APP_URL}/api/auth/register/confirm/${pendingRegistration.id}" 
+          className="bg-green-500 text-white px-4 py-2 no-underline inline-block mr-2"
+        >
+          Confirm Registration
+        </a>
+        <a 
+          href="${process.env.NEXT_PUBLIC_APP_URL}/api/auth/register/delete/${pendingRegistration.id}" 
+          className="bg-red-500 text-white px-4 py-2 no-underline inline-block"
+        >
+          Delete Request
+        </a>
+      </p>
+    `;
+
+    const html = await render(EmailTemplate({ body }));
 
     await sendEmail({
-      to: adminEmail,
+      to: process.env.SMTP_USER!,
       subject: "New User Registration Request",
-      html: `
-        <h1>New User Registration Request</h1>
-        <p>Name: ${name}</p>
-        <p>Email: ${email}</p>
-        <p>
-          <a href="${confirmUrl}">Confirm Registration</a>
-          <a href="${deleteUrl}">Delete Request</a>
-        </p>
-      `,
+      html,
     });
 
     return NextResponse.json(

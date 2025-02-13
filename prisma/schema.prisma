@@ -16,7 +16,7 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model TempUser {
+model PendingRegistration {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
