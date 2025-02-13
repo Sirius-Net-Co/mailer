@@ -1,4 +1,10 @@
+# Mailer Project
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Project Description
+
+The Mailer Project is an email campaign management system that allows users to register, send emails, and manage email campaigns. It uses Next.js for the frontend and backend, Prisma for database management, and Nodemailer for sending emails. The project includes user authentication and registration, email templates, and an admin approval system for new user registrations.
 
 ## Getting Started
 
@@ -19,6 +25,38 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your `.env` file:
+
+```properties
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USER=
+SMTP_PASS=
+FROM_EMAIL=
+NEXTAUTH_URL=
+NEXTAUTH_SECRET=
+NEXT_PUBLIC_APP_URL=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL_NON_POOLING=
+```
+
+### Example `.env` file
+
+```properties
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-email-password
+FROM_EMAIL="Your Name <your-email@gmail.com>"
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+POSTGRES_PRISMA_URL=postgresql://user:password@localhost:5432/dbname
+POSTGRES_URL_NON_POOLING=postgresql://user:password@localhost:5432/dbname
+```
 
 ## Learn More
 
