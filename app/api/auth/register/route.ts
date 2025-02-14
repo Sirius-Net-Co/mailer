@@ -1,16 +1,21 @@
 import bcrypt from "bcrypt";
+import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { convert } from "html-to-text";
 import { sendEmail } from "@/lib/email";
+import { registerSchema } from "@/lib/schema"
 import { render } from "@react-email/components";
 import { NextRequest, NextResponse } from "next/server";
 import { EmailTemplate } from "@/components/EmailTemplate";
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password } = await request.json();
+    const requestData = await request.json();
+
+    const { name, email, password } = registerSchema.parse(requestData);
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
+
     if (existingUser) {
       return NextResponse.json(
         { message: "User already exists" },
@@ -83,6 +88,13 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error("Registration error:", error);
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { message: error.errors[0].message },
+        { status: 400 },
+      );
+    }
 
     return NextResponse.json(
       { message: "An error occurred during registration" },
