@@ -3,16 +3,16 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { convert } from "html-to-text";
 import { sendEmail } from "@/lib/email";
-import { registerSchema } from "@/lib/schema"
+import { registerSchema } from "@/lib/schema";
 import { render } from "@react-email/components";
 import { NextRequest, NextResponse } from "next/server";
 import { EmailTemplate } from "@/components/EmailTemplate";
 
 export async function POST(request: NextRequest) {
   try {
-    const requestData = await request.json();
+    const data = await request.json();
 
-    const { name, email, password } = registerSchema.parse(requestData);
+    const { name, email, password } = registerSchema.parse(data);
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
 
