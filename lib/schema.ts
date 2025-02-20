@@ -40,7 +40,7 @@ export const sendEmailSchema = z.object({
   attachments: z.array(z.instanceof(File)).default([]),
   emails: z
     .array(z.string().trim().email("Invalid email address"))
-    .nonempty("At least one email is required"),
+    .min(1, "At least one email is required"),
 });
 
 export type LoginSchemaType = z.infer<typeof loginSchema>;

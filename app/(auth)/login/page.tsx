@@ -100,11 +100,12 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-[#9669A4] text-white transition-colors hover:bg-[#9669A4]/80"
+              disabled={form.formState.isSubmitting}
+              className="w-full cursor-pointer bg-[#9669A4] text-white transition-colors hover:bg-[#9669A4]/80"
             >
               {form.formState.isSubmitting ? (
                 <span className="flex items-center justify-center">
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Logging in...
                 </span>
               ) : (

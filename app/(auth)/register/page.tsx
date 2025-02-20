@@ -176,11 +176,12 @@ export default function RegisterPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-[#9669A4] text-white transition-colors hover:bg-[#9669A4]/80"
+                disabled={form.formState.isSubmitting}
+                className="w-full cursor-pointer bg-[#9669A4] text-white transition-colors hover:bg-[#9669A4]/80"
               >
                 {form.formState.isSubmitting ? (
                   <span className="flex items-center justify-center">
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 size-4 animate-spin" />
                     Creating account...
                   </span>
                 ) : (
@@ -206,14 +207,14 @@ export default function RegisterPage() {
         <AlertDialogContent className="bg-white p-6 shadow-xl">
           <AlertDialogHeader className="gap-4">
             <div className="mx-auto rounded-full bg-green-100 p-3">
-              <CheckCircle2 className="h-8 w-8 text-green-600" />
+              <CheckCircle2 className="size-8 text-green-600" />
             </div>
             <AlertDialogTitle className="text-center text-xl font-semibold text-[#22264B]">
               Registration Successful
             </AlertDialogTitle>
             <AlertDialogDescription className="flex flex-col items-center gap-4 text-base text-[#22264B]/70">
               <span className="flex items-center gap-2">
-                <Mail className="h-5 w-5 text-[#9669A4]" />
+                <Mail className="size-5 text-[#9669A4]" />
                 <span>Request sent to admin for approval</span>
               </span>
               Your request to join Sirius.Net.Co Email Campaign Manager is
@@ -228,7 +229,7 @@ export default function RegisterPage() {
             >
               <span className="flex items-center justify-center gap-2">
                 Continue to Login
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="size-4" />
               </span>
             </AlertDialogAction>
           </AlertDialogFooter>

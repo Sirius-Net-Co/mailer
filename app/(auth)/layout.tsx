@@ -11,14 +11,14 @@ export default function AuthLayout({
       <div className="hidden w-1/2 flex-col justify-between bg-[#9669A4] p-12 text-white lg:flex">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Mail className="h-10 w-10" />
+            <Mail className="size-10" />
             <span className="text-2xl font-bold">Sirius.Net.Co</span>
           </div>
           <Link
             href="/"
             className="flex items-center space-x-2 rounded-lg bg-white/10 px-4 py-2 text-sm text-white transition-colors hover:bg-white/20"
           >
-            <Home className="h-4 w-4" />
+            <Home className="size-4" />
             <span>Home</span>
           </Link>
         </div>
@@ -32,15 +32,15 @@ export default function AuthLayout({
           </p>
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="h-1 w-1 rounded-full bg-white" />
+              <div className="size-1 rounded-full bg-white" />
               <p>Bulk email campaigns</p>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="h-1 w-1 rounded-full bg-white" />
+              <div className="size-1 rounded-full bg-white" />
               <p>Excel file integration</p>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="h-1 w-1 rounded-full bg-white" />
+              <div className="size-1 rounded-full bg-white" />
               <p>Rich text editor support</p>
             </div>
           </div>
@@ -55,9 +55,9 @@ export default function AuthLayout({
         <div className="lg:hidden">
           <Link
             href="/"
-            className="absolute right-4 top-4 flex items-center space-x-2 rounded-lg bg-white/80 px-4 py-2 text-sm text-[#9669A4] transition-colors hover:bg-white"
+            className="absolute top-4 right-4 flex items-center space-x-2 rounded-lg bg-white/80 px-4 py-2 text-sm text-[#9669A4] transition-colors hover:bg-white"
           >
-            <Home className="h-4 w-4" />
+            <Home className="size-4" />
             <span>Home</span>
           </Link>
         </div>
