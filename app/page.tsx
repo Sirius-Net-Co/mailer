@@ -28,8 +28,12 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#ECE190]/20 via-[#D7C5AE]/20 to-[#9669A4]/20">
       <div className="container mx-auto p-4">
-        <div className="fixed right-4 top-4 mb-4 flex justify-end">
-          <Button onClick={() => signOut()} variant="outline">
+        <div className="fixed top-4 right-4 mb-4 flex justify-end">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={() => signOut()}
+          >
             Logout
           </Button>
         </div>
